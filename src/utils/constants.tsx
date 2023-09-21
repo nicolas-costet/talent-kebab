@@ -1,2 +1,4 @@
 export const modelApiUrl = "https://xy7mmmrtyk.execute-api.eu-west-1.amazonaws.com/default/trip-planner"
 export const apiKey = "FoLSSjRgcD6mzaDM8SKI73GvJUx08X6za0KZlLN5"
+
+export const loremIpsumResult = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
