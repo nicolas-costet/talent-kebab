@@ -3,7 +3,7 @@ import {Content, Header} from "antd/es/layout/layout";
 import {Layout, Typography, Image, Form, Input, Button, Space} from "antd";
 import {FunctionComponent} from "react";
 import {useTranslation} from "react-i18next";
-import {modelApiUrl} from "src/utils/constants";
+import {apiKey, modelApiUrl} from "src/utils/constants";
 
 interface TripPlannerData {
     cityQuery: string;
@@ -52,6 +52,9 @@ const TripPlannerScreen: FunctionComponent = () => {
         const cityQuery = values['cityQuery'];
         fetch(`${modelApiUrl}`, {
             method: "POST",
+            headers: {
+                ["x-api-key"]: apiKey,
+            },
             body: JSON.stringify({
                 data: cityQuery
             }),
