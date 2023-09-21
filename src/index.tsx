@@ -1,14 +1,15 @@
 import reportWebVitals from "./reportWebVitals";
 import {BrowserRouter} from "react-router-dom";
 import {createRoot} from "react-dom/client";
-import {HomeScreen} from "./components/views/HomeScreen";
+import TripPlannerScreen from "src/components/views/TripPlannerScreen";
+import "src/utils/i18n/i18n";
 
 const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+const root = createRoot(rootElement as Element);
 
 root.render(
     <BrowserRouter>
-        <HomeScreen/>
+        <TripPlannerScreen/>
     </BrowserRouter>,
 );
 
