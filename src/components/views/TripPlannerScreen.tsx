@@ -1,9 +1,12 @@
 import React, {useState} from "react";
 import {Content, Header} from "antd/es/layout/layout";
-import {Layout, Typography, Image, Form, Input, Button, Space} from "antd";
+import {Layout, Typography, Image, Form, Input, Button, Space, Spin, Alert} from "antd";
 import {FunctionComponent} from "react";
 import {useTranslation} from "react-i18next";
 import {apiKey, modelApiUrl} from "src/utils/constants";
+import {
+    SendOutlined
+} from "@ant-design/icons";
 
 interface TripPlannerData {
     cityQuery: string;
@@ -28,6 +31,7 @@ const titleStyle: React.CSSProperties = {
 
 const contentStyle: React.CSSProperties = {
     paddingLeft: "10%",
+    paddingRight: "10%",
     height: 200,
     lineHeight: '64px',
     backgroundColor: '#FFFFFF',
@@ -45,30 +49,34 @@ const cityContainerStyle: React.CSSProperties = {
     justifyContent: "flex-start"
 }
 
+const resultContainerStyle: React.CSSProperties = {
+    paddingBottom: "5%",
+    width: "fit-content"
+}
+
 const TripPlannerScreen: FunctionComponent = () => {
     const {t} = useTranslation();
 
     const [result, setResult] = useState<string | undefined>();
+    const [isLoading, setLoading] = useState<boolean>(false);
 
-    const handleSubmit =  (values: TripPlannerData) => {
+    const handleSubmit = (values: TripPlannerData) => {
+        setLoading(true);
         const cityQuery = values['cityQuery'];
         fetch(`${modelApiUrl}`, {
             method: "POST",
-            headers: {
-                ["Access-Control-Allow-Origin"]: "*",
-                ["x-api-key"]: apiKey,
-                ["Content-Type"]: "application/json",
-                mode: "no-cors"
-            },
+            headers: {'Content-Type': 'application/json', 'X-Api-Key': apiKey},
             body: JSON.stringify({
-                data: cityQuery
+                destination: cityQuery,
+                budget: "20",
+                persons: "1",
+                days: "2"
             }),
 
         }).then((response) => {
             return response.text().then((text) => {
-                const data = (text && JSON.parse(text));
-                console.log(data);
-                setResult(data);
+                setResult(text);
+                setLoading(false)
             });
         });
 
@@ -85,32 +93,37 @@ const TripPlannerScreen: FunctionComponent = () => {
                 <>
                     <div style={cityContainerStyle}>
                         <Image
+                            preview={false}
                             height={212}
                             src="/img/image 1.svg"
                         />
                         <Image
+                            preview={false}
                             src="/img/ellipse.svg"
                         />
                     </div>
-                        <Form layout={"vertical"} style={formStyle}  onFinish={handleSubmit}>
-                            <Typography.Text>{t("common.city")}</Typography.Text>
-                            <Space.Compact style={{width: '100%'}}>
-                                <Form.Item
-                                    name="cityQuery"
-                                    rules={[{required: true, message: 'Renseigner un pain'}]}
-                                    style={{width: '70%'}}
-                                >
-                                    <Input style={{width: '100%'}}/>
-                                </Form.Item>
-                                <Button type="primary" htmlType="submit">Submit</Button>
-                            </Space.Compact>
-                        </Form>
+                    <Spin tip="Loading..." spinning={isLoading}>
+                    <Form layout={"vertical"} style={formStyle} onFinish={handleSubmit}>
+                        <Typography.Text>{t("common.city")}</Typography.Text>
+                        <Space.Compact style={{width: '100%'}}>
+                            <Form.Item
+                                name="cityQuery"
+                                rules={[{required: true, message: 'Renseigner un pain'}]}
+                                style={{width: '70%'}}
+                            >
+                                <Input style={{width: '100%'}}/>
+                            </Form.Item>
+                            <Button type="primary" icon={<SendOutlined />} htmlType="submit" />
+                        </Space.Compact>
+                    </Form>
+                    </Spin>
                     {result &&
-                        <><Typography.Text>{t("common.result")}</Typography.Text>
+                        <div style={resultContainerStyle}>
+                            <Typography.Text>{t("common.result")}</Typography.Text>
                             <div>
-                        <Typography.Text>{result}</Typography.Text>
+                                <Alert style={{ whiteSpace: 'pre-line' }}  message={result} type="info" />
                             </div>
-                    </>}
+                        </div>}
                 </>
             </Content>
         </Layout>
