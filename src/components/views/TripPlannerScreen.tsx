@@ -1,15 +1,48 @@
-import React, {useState} from "react";
+import React, {FunctionComponent, useState} from "react";
 import {Content, Header} from "antd/es/layout/layout";
-import {Layout, Typography, Image, Form, Input, Button, Space, Spin, Alert} from "antd";
-import {FunctionComponent} from "react";
+import {Alert, Form, FormInstance, Image, Layout, message, Spin, Steps, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {apiKey, modelApiUrl} from "src/utils/constants";
-import {
-    SendOutlined
-} from "@ant-design/icons";
+import i18n from "i18next";
+import Destination from "src/components/steps/Destination";
+import Participants from "src/components/steps/Participants";
+import Date from "src/components/steps/Date";
+import Result from "src/components/steps/Result";
+import Budget from "src/components/steps/Budget";
 
-interface TripPlannerData {
-    cityQuery: string;
+const steps = (
+    next: () => void,
+    form: FormInstance,
+    tripPlanner: TripPlannerData,
+    setTripPlanner: (newDatas: TripPlannerData) => void
+) => [
+    {
+        title: i18n.t("common.steps.city"),
+        content: <Destination next={next} form={form} tripPlanner={tripPlanner} setTripPlanner={setTripPlanner}/>
+    },
+    {
+        title: i18n.t("common.steps.participants"),
+        content: <Participants next={next} form={form} tripPlanner={tripPlanner} setTripPlanner={setTripPlanner}/>,
+    },
+    {
+        title: i18n.t("common.steps.date"),
+        content: <Date next={next} form={form} tripPlanner={tripPlanner} setTripPlanner={setTripPlanner}/>,
+    },
+    {
+        title: i18n.t("common.steps.budget"),
+        content: <Budget next={next} form={form} tripPlanner={tripPlanner} setTripPlanner={setTripPlanner}/>,
+    },
+    {
+        title: i18n.t("common.steps.result"),
+        content: <Result />
+    },
+];
+
+export interface TripPlannerData {
+    destination?: string;
+    persons?: number;
+    budget?: number;
+    days?: number;
 }
 
 const headerStyle: React.CSSProperties = {
@@ -56,34 +89,39 @@ const resultContainerStyle: React.CSSProperties = {
 
 const TripPlannerScreen: FunctionComponent = () => {
     const {t} = useTranslation();
+    const [form] = Form.useForm();
+
+    const [messageApi, contextHolder] = message.useMessage();
 
     const [result, setResult] = useState<string | undefined>();
     const [isLoading, setLoading] = useState<boolean>(false);
+    const [current, setCurrent] = useState<number>(0);
+    const [tripPlannerDatas, setTripPlannerDatas] = useState<TripPlannerData>({});
 
     const handleSubmit = (values: TripPlannerData) => {
         setLoading(true);
-        const cityQuery = values['cityQuery'];
         fetch(`${modelApiUrl}`, {
             method: "POST",
             headers: {'Content-Type': 'application/json', 'X-Api-Key': apiKey},
-            body: JSON.stringify({
-                destination: cityQuery,
-                budget: "20",
-                persons: "1",
-                days: "2"
-            }),
+            body:  JSON.stringify(tripPlannerDatas)
 
         }).then((response) => {
             return response.text().then((text) => {
                 setResult(text);
-                setLoading(false)
+                setLoading(false);
+                messageApi.success(t("common.success"))
             });
         });
 
     }
 
+    const next =  () => {
+        setCurrent(current + 1);
+    }
+
     return (
         <Layout className="layout">
+            {contextHolder}
             <Header style={headerStyle}>
                 <Typography.Title style={subTitleStyle} level={2}>{t("common.title2")}</Typography.Title>
                 <Typography.Title style={titleStyle} level={1}>{t("common.title1")}</Typography.Title>
@@ -103,25 +141,17 @@ const TripPlannerScreen: FunctionComponent = () => {
                         />
                     </div>
                     <Spin tip="Loading..." spinning={isLoading}>
-                    <Form layout={"vertical"} style={formStyle} onFinish={handleSubmit}>
-                        <Typography.Text>{t("common.city")}</Typography.Text>
-                        <Space.Compact style={{width: '100%'}}>
-                            <Form.Item
-                                name="cityQuery"
-                                rules={[{required: true, message: 'Renseigner un pain'}]}
-                                style={{width: '70%'}}
-                            >
-                                <Input style={{width: '100%'}}/>
-                            </Form.Item>
-                            <Button type="primary" icon={<SendOutlined />} htmlType="submit" />
-                        </Space.Compact>
-                    </Form>
+                        <Form layout={"vertical"} style={formStyle} onFinish={handleSubmit} form={form}>
+                            <Steps current={current} items={steps(next, form, tripPlannerDatas, setTripPlannerDatas)}/>
+                            <div style={contentStyle}>{steps(next, form, tripPlannerDatas, setTripPlannerDatas)[current].content}</div>
+                        </Form>
                     </Spin>
+
                     {result &&
                         <div style={resultContainerStyle}>
                             <Typography.Text>{t("common.result")}</Typography.Text>
                             <div>
-                                <Alert style={{ whiteSpace: 'pre-line' }}  message={result} type="info" />
+                                <Alert style={{whiteSpace: 'pre-line'}} message={result} type="info"/>
                             </div>
                         </div>}
                 </>
