@@ -5,12 +5,24 @@
     "title2": "Ici, tout est personnalisé, préparé et réservé en 1 seule fois !",
     "title1": "Planifiez votre moment de manière optimale",
     "city": "Dans quelle ville souhaitez-vous partir ?",
-    "participants": "Serez-vous seul ou accompagné ?",
+    "participants": {
+      "title": "Serez-vous seul ou accompagné ?",
+      "count": {
+        "adults": "Adulte",
+        "children": "Enfant",
+        "babies": "Bébé"
+      }
+    },
     "date": "A quelle date ?",
     "budget": "Quelle thématique vous donne envie ?",
-    "result": "Voici ce que je vous propose :",
+
     "empty": "Renseigner le champ",
-    "confirm": "C’est bien cela ?",
+    "result": {
+      "title": "Vous souhaitez partir",
+      "data": "à {{ tripPlanner.destination }} avec {{ tripPlanner.personsCount.adultsCount }} personnes(s) pendant {{ tripPlanner.days }} jours pour un budget de {{ tripPlanner.budget }}",
+      "confirm": "C’est bien cela ?",
+      "result": "Voici ce que je vous propose :"
+    },
     "steps": {
       "city": "Ville",
       "participants": "Participants",

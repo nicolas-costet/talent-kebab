@@ -2,7 +2,7 @@ import {FunctionComponent} from "react";
 import {Button, Form, FormInstance, Input, Space, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {SendOutlined} from "@ant-design/icons";
-import {TripPlannerData} from "@components/views/TripPlannerScreen";
+import {stepsTitleStyle, TripPlannerData} from "src/views/TripPlannerScreen/TripPlannerScreen";
 
 export interface PropsType {
     next: () => void;
@@ -28,7 +28,7 @@ const Destination: FunctionComponent<PropsType> = ( { next, form, tripPlanner, s
     }
     return (
         <>
-            <Typography.Text>{t("common.city")}</Typography.Text>
+            <Typography.Text style={stepsTitleStyle}>{t("common.city")}</Typography.Text>
             <Space.Compact style={{width: '100%'}}>
                 <Form.Item
                     name="cityQuery"

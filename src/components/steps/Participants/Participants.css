@@ -1,0 +1,35 @@
+.participants--cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.participants--card {
+    padding: 1rem;
+    box-shadow: 1px 4px 10px 0px rgba(143,143,143,1);
+    border-radius: 0.5rem;
+    width: 12vw !important;
+    height: auto;
+}
+
+.participants--card-next-button {
+    background-color: #1E1852;
+}
+
+.participants--card-buttons-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 1rem;
+}
+
+.participants--card-button {
+    border: none;
+    border-radius: 0.5rem;
+    background-color: rgba(238, 49, 164, 0.08);
+}
+
+.participants--card-button > span > svg > path {
+    color: #EE31A4;
+}

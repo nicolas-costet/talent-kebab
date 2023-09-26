@@ -1,0 +1,37 @@
+.trip-planner-screen--header {
+    padding-left: 10%;
+    height: 10%;
+    background-color: #F7F5FF;
+}
+
+
+.trip-planner-screen--title {
+    font-size: 18px;
+    font-family: "Open Sans", serif;
+    color: #2816C0;
+    font-weight: 600
+}
+
+.trip-planner-screen--content {
+    padding-left: 10%;
+    padding-right: 10%;
+    background-color: #FFFFFF;
+    line-height: 64px;
+}
+
+.trip-planner-screen--form {
+    margin-top: 5%;
+    width: 100%
+}
+
+.trip-planner-screen--city-container {
+    margin-top: 5%;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.trip-planner-screen--result {
+    padding: 0 10vw 10vw 10vw;
+    width: fit-content
+}

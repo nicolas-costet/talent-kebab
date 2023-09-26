@@ -3,7 +3,7 @@ import {Button, Form, InputNumber, Space, Typography} from "antd";
 import {useTranslation} from "react-i18next";
 import {SendOutlined} from "@ant-design/icons";
 import {StepPropsType} from "src/components/steps/step.props";
-
+import {stepsTitleStyle} from "src/views/TripPlannerScreen/TripPlannerScreen";
 
 const Destination: FunctionComponent<StepPropsType> = ({next, form, tripPlanner, setTripPlanner}) => {
     const {t} = useTranslation();
@@ -24,7 +24,7 @@ const Destination: FunctionComponent<StepPropsType> = ({next, form, tripPlanner,
 
     return (
         <>
-            <Typography.Text>{t("common.budget")}</Typography.Text>
+            <Typography.Text style={stepsTitleStyle}>{t("common.budget")}</Typography.Text>
             <Space.Compact style={{width: '100%'}}>
                 <Form.Item
                     name="budget"

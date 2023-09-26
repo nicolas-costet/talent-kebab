@@ -1,9 +1,9 @@
 import {FormInstance} from "antd";
-import {TripPlannerData} from "@components/views/TripPlannerScreen";
+import {TripPlannerData} from "@views/TripPlannerScreen/TripPlannerScreen";
 
 export interface StepPropsType {
     next: () => void;
     form: FormInstance,
     tripPlanner: TripPlannerData,
-    setTripPlanner: (newDatas: TripPlannerData) => void;
+    setTripPlanner: (newData: TripPlannerData) => void;
 }

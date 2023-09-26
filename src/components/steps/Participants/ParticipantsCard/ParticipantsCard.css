@@ -1,0 +1,10 @@
+.participants--card-title {
+    justify-content: center;
+    display: flex;
+    font-size: 1rem;
+}
+
+.participants--card-container {
+    display: flex;
+    flex-direction: column;
+}
