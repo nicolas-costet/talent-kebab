@@ -1,1 +1,0 @@
-export const kebabsApiUrl = "https://test-technique-kebabs.ew.r.appspot.com/kebabs"

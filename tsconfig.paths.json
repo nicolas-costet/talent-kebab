@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@components/*": ["src/components/*"],
+      "@views/*": ["src/views/*"],
+      "@state/*": ["src/state/*"],
+      "@utils/*": ["src/utils/*"],
+      "@type/*": ["src/type/*"],
+      "@routes/*": ["src/routes/*"]
+    }
+  }
+}
